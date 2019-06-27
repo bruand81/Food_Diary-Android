@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         mealRecyclerView.layoutManager = layoutManager
 
         adapter = MealAdapter(meals)
+        mealRecyclerView.adapter = adapter
 
     }
 
