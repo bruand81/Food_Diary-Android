@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Diario Alimentare</string>
+    <string name="emotion_list_view_title">Emotions</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_emotions_list">Emotions</string>
+    <string name="title_activity_emotion_list">EmotionListActivity</string>
+    <string name="happy_emotion_default">Happy</string>
+    <string name="angry_emotion_default">Angry</string>
+    <string name="annoyed_emotion_default">Annoyed</string>
+    <string name="sick_emotion_default">Sick</string>
+    <string name="disgust_emotion_default">Disgust</string>
+    <string name="happy_emotion_emoticon_default">😁</string>
+    <string name="angry_emotion_emoticon_default">😡</string>
+    <string name="annoyed_emotion_emoticon_default">😒</string>
+    <string name="sick_emotion_emoticon_default">🤕</string>
+    <string name="disgust_emotion_emoticon_default">🤢</string>
+</resources>
