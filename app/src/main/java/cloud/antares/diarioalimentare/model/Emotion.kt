@@ -9,12 +9,12 @@ open class Emotion(): RealmObject() {
     @PrimaryKey
     var _id: String = UUID.randomUUID().toString()
     var name: String = ""
-    var emotion: String = ""
+    var emoticon: String = ""
 
     var meals: RealmList<Meal> = RealmList()
 
     constructor(name: String, emotion: String) : this() {
         this.name = name
-        this.emotion = emotion
+        this.emoticon = emotion
     }
 }

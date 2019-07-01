@@ -41,10 +41,6 @@ class MainActivity : AppCompatActivity() {
 
         checkEmotions(realm)
 
-        realm.where<Emotion>().findAll().forEach {
-            println(it.name)
-        }
-
         val meals: RealmResults<Meal> = realm.where<Meal>().findAll()
 
         layoutManager = LinearLayoutManager(this)

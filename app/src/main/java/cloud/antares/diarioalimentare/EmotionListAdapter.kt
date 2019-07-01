@@ -1,8 +1,10 @@
 package cloud.antares.diarioalimentare
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import cloud.antares.diarioalimentare.model.Emotion
 import io.realm.RealmResults
@@ -35,12 +37,15 @@ class EmotionListAdapter(val emotions: RealmResults<Emotion>): RecyclerView.Adap
 
         fun bind(emotion: Emotion) {
             this.emotion = emotion
-            this.view.emotionEmoticon.text = emotion.emotion
+            this.view.emotionEmoticon.text = emotion.emoticon
             this.view.emotionName.text = emotion.name
         }
 
         override fun onClick(v: View?) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            val emotionIntent: Intent = Intent(view.context, EditEmotionActivity::class.java)
+            val emotionId:String = if (emotion != null) emotion!!._id else "none"
+            emotionIntent.putExtra("emotionID", emotionId)
+            startActivity(view.context, emotionIntent, null)
         }
 
     }

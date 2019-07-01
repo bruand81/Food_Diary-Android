@@ -1,8 +1,10 @@
 package cloud.antares.diarioalimentare
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import cloud.antares.diarioalimentare.model.Emotion
 import io.realm.Realm
@@ -24,8 +26,11 @@ class EmotionListActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                    .setAction("Action", null).show()
+            val emotionIntent: Intent = Intent(view.context, EditEmotionActivity::class.java)
+            emotionIntent.putExtra("emotionID", "none")
+            ContextCompat.startActivity(view.context, emotionIntent, null)
         }
 
         supportActionBar?.title = getString(R.string.emotion_list_view_title)
@@ -34,6 +39,17 @@ class EmotionListActivity : AppCompatActivity() {
         layoutManager = LinearLayoutManager(this)
         emotionRecyclerView.layoutManager = layoutManager
 
+        Realm.init(this)
+
+        loadEmotion()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadEmotion()
+    }
+
+    private fun loadEmotion() {
         // Open the realm for the UI thread.
         realm = Realm.getDefaultInstance()
 
@@ -43,5 +59,4 @@ class EmotionListActivity : AppCompatActivity() {
 
         emotionRecyclerView.adapter = adapter
     }
-
 }

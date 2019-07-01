@@ -14,4 +14,8 @@
     <string name="annoyed_emotion_emoticon_default">😒</string>
     <string name="sick_emotion_emoticon_default">🤕</string>
     <string name="disgust_emotion_emoticon_default">🤢</string>
+    <string name="label_for_emotion_emoticon">Emoticon</string>
+    <string name="placeholder_for_emotion_emoticons">Insert an emoticon for emotion</string>
+    <string name="label_for_emotion_name">Name</string>
+    <string name="placeholder_for_emotion_name">Insert a name for this emotion</string>
 </resources>
