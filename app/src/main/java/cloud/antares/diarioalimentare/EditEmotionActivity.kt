@@ -18,8 +18,8 @@ class EditEmotionActivity : AppCompatActivity() {
         Realm.init(this)
 
         realm = Realm.getDefaultInstance()
-
-        val emotionID:String = intent.extras.getString("emotionID", "none")
+        
+        val emotionID:String = (intent.extras?.getString("emotionID", "none"))?:"none"
         emotion = realm.where<Emotion>().equalTo("_id", emotionID).findFirst() ?: Emotion()
         if(emotion._id == emotionID){
             emoticonForEmotionEditText.setText(emotion.emoticon)
@@ -40,5 +40,10 @@ class EditEmotionActivity : AppCompatActivity() {
         }
 
         emotion_cancel_button.setOnClickListener { finish() }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        realm.close()
     }
 }

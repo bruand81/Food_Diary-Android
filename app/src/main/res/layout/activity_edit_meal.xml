@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".EditMealActivity">
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            android:id="@+id/scrollView2" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:orientation="vertical">
+            <TextView
+                    android:text="@string/label_for_meal_edit_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp" android:id="@+id/textView3"
+                    android:layout_marginRight="8dp" android:layout_marginEnd="8dp" android:textSize="18sp"
+                    style="@style/HeaderLabelTextView"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/mealNameEditText"
+                    android:layout_marginStart="8dp"
+                    android:importantForAutofill="no" tools:targetApi="o"
+                    android:hint="@string/placeholder_insert_meal_name"
+                    android:layout_marginEnd="8dp" android:layout_marginTop="8dp"/>
+            <TextView
+                    android:text="@string/label_for_meal_emotion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView4"
+                    android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp" android:layout_marginRight="8dp" android:textSize="18sp"
+                    android:layout_marginTop="8dp" style="@style/HeaderLabelTextView"/>
+            <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/emotionSpinner" android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp" android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"/>
+            <TextView
+                    android:text="@string/label_for_meal_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView5"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp" android:textSize="18sp"
+                    android:layout_marginTop="8dp" style="@style/HeaderLabelTextView"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp" android:layout_marginTop="8dp"
+                    style="?android:attr/buttonBarStyle" android:id="@+id/linearLayout">
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/dateButton" android:layout_weight="1"
+                        style="?android:attr/buttonBarButtonStyle" android:onClick="showDatePickerDialog"/>
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/timeButton" android:layout_weight="1"
+                        style="?android:attr/buttonBarButtonStyle" android:onClick="showTimePickerDialog"/>
+            </LinearLayout>
+            <TextView
+                    android:text="@string/label_for_meal_dishes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView6" android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp" android:textSize="18sp" style="@style/HeaderLabelTextView"/>
+            <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="80sp" android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp" android:layout_marginEnd="8dp"
+                    android:id="@+id/recyclerView">
+            </androidx.recyclerview.widget.RecyclerView>
+            <Button
+                    android:text="@string/add_dish_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/addDishButton"
+                    android:layout_marginStart="8dp"
+            />
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    style="?android:attr/buttonBarStyle" android:id="@+id/linearLayout2"
+                    android:layout_marginStart="8dp">
+                <Button
+                        android:text="@android:string/cancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/cancel_button" android:layout_weight="1"
+                        style="?android:attr/buttonBarButtonStyle"/>
+                <Button
+                        android:text="@android:string/ok"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/ok_button" android:layout_weight="1"
+                        style="?android:attr/buttonBarButtonStyle"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

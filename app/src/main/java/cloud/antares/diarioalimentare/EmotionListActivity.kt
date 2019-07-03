@@ -41,7 +41,12 @@ class EmotionListActivity : AppCompatActivity() {
 
         Realm.init(this)
 
-        loadEmotion()
+//        loadEmotion()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        realm.close()
     }
 
     override fun onResume() {

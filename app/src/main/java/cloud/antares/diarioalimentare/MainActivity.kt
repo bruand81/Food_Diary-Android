@@ -1,11 +1,15 @@
 package cloud.antares.diarioalimentare
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.DatePicker
+import android.widget.TimePicker
 import androidx.recyclerview.widget.LinearLayoutManager
 import cloud.antares.diarioalimentare.model.Emotion
 import cloud.antares.diarioalimentare.model.Meal
@@ -32,10 +36,17 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show()
+            val editMealIntent: Intent = Intent(view.context, EditMealActivity::class.java)
+            editMealIntent.putExtra("mealID", "none")
+            startActivity(editMealIntent)
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
         // Open the realm for the UI thread.
         realm = Realm.getDefaultInstance()
 
@@ -48,7 +59,11 @@ class MainActivity : AppCompatActivity() {
 
         adapter = MealAdapter(meals)
         mealRecyclerView.adapter = adapter
+    }
 
+    override fun onStop() {
+        super.onStop()
+        realm.close()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -58,9 +73,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> true
             R.id.showEmotions -> {

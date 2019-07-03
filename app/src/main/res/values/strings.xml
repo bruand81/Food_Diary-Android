@@ -18,4 +18,22 @@
     <string name="placeholder_for_emotion_emoticons">Insert an emoticon for emotion</string>
     <string name="label_for_emotion_name">Name</string>
     <string name="placeholder_for_emotion_name">Insert a name for this emotion</string>
+    <string name="label_for_meal_edit_name">Meal name</string>
+    <string name="placeholder_insert_meal_name">Which meal was?</string>
+    <string name="label_for_meal_emotion">Meal emotion</string>
+    <string name="placeholder_for_insert_meal_emotion">Which was your emotion after the meal?</string>
+    <string name="manage_emotions_button">Manage emotions</string>
+    <string name="label_for_meal_date">Meal date</string>
+    <string name="label_for_meal_dishes">Meal dishes</string>
+    <string name="add_dish_button">Add dish</string>
+    <string name="add_dish_dialog_title">Add dish</string>
+    <string name="delete_dish_button">Delete dish</string>
+    <string name="confirm_delete_dish">Confirm dish deletion</string>
+    <string name="confirm_delete_dish_button">Confirm</string>
+    <string name="meal_added_succesfully">Meal added</string>
+    <string name="error_adding_meal">Error adding meal</string>
+    <string name="dish_deleted">Dish deleted</string>
+    <string name="dish_deleting_error">Error deleting dish</string>
+    <string name="dish_added">Dish added</string>
+    <string name="dish_add_error">Error adding dish</string>
 </resources>

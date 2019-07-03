@@ -17,4 +17,12 @@ open class Emotion(): RealmObject() {
         this.name = name
         this.emoticon = emotion
     }
+
+    override fun toString(): String {
+        return emoticon + " " + name
+    }
+
+    fun toShortString(): String {
+        return emoticon
+    }
 }

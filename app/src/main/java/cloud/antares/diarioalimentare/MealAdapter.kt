@@ -1,6 +1,7 @@
 package cloud.antares.diarioalimentare
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,9 @@ import cloud.antares.diarioalimentare.model.Meal
 import kotlinx.android.synthetic.main.mealrecyclerwiew_item_row.view.*
 import java.text.SimpleDateFormat
 import android.os.Build
+import androidx.core.content.ContextCompat.startActivity
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.activity_edit_emotion.view.*
 import java.util.*
 
 
@@ -42,13 +45,20 @@ class MealAdapter(val meals: RealmResults<Meal>): RecyclerView.Adapter<MealAdapt
 
         fun bindMeal(meal: Meal) {
             this.meal = meal
-            this.view.mealEmoji.text = meal.emotionForMeals?.first().toString()
-            val formatter = SimpleDateFormat("dd MMMM yyyy HH:mm", view.context.resources.configuration.locales[0])
-            val mealDate = formatter.format(meal.mealDate)
-            this.view.dateTextView.text = meal.name + " - " + mealDate
+            this.view.mealEmoji.text = meal.emotionForMeals?.first()?.toShortString()
+            //val formatter = SimpleDateFormat("dd MMMM yyyy HH:mm", view.context.resources.configuration.locales[0])
+            //val mealDate = formatter.format(meal.mealDate)
+            this.view.dateTextView.text = meal.toString()
+            val dishesString: String = meal.dishes.joinToString{
+                it.toString()
+            }
+            this.view.mealDescription.text = dishesString
         }
         override fun onClick(v: View?) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            val editMealIntent: Intent = Intent(view.context, EditMealActivity::class.java)
+            val mealId:String = if (meal != null) meal!!._id else "none"
+            editMealIntent.putExtra("mealID", mealId)
+            startActivity(view.context, editMealIntent, null)
         }
 
     }
