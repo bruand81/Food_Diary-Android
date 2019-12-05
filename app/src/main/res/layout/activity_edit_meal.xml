@@ -108,6 +108,16 @@
                         android:layout_height="wrap_content" android:id="@+id/ok_button" android:layout_weight="1"
                         style="?android:attr/buttonBarButtonStyle"/>
             </LinearLayout>
+
+            <Button
+                    android:id="@+id/deleteMealButton"
+                    style="?attr/buttonBarButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/red_button"
+                    android:text="@string/meal_delete_button"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Diario Alimentare</string>
+    <string name="action_emotions_list">Emozioni</string>
+    <string name="action_settings">Impostazioni</string>
+    <string name="add_dish_button">Aggiungi alimento</string>
+    <string name="add_dish_dialog_title">Aggiungi alimento</string>
+    <string name="angry_emotion_default">Arrabiato</string>
+    <string name="annoyed_emotion_default">Annoiato</string>
+    <string name="confirm_delete_dish">Conferma cancellazione alimento</string>
+    <string name="confirm_delete_dish_button">Conferma</string>
+    <string name="delete_dish_button">Cancella alimento</string>
+    <string name="disgust_emotion_default">Disgusto</string>
+    <string name="dish_add_error">Errore in aggiunta alimento</string>
+    <string name="dish_added">Alimento aggiunto</string>
+    <string name="dish_deleted">Alimento cancellato</string>
+    <string name="dish_deleting_error">Errore in cancellazione alimento</string>
+    <string name="emotion_list_view_title">Emozioni</string>
+    <string name="error_adding_meal">Errore in aggiunta alimento</string>
+    <string name="happy_emotion_default">Felice</string>
+    <string name="label_for_emotion_emoticon">Emoticon</string>
+    <string name="label_for_emotion_name">Nome</string>
+    <string name="label_for_meal_date">Data pasto</string>
+    <string name="label_for_meal_dishes">Alimenti pasto</string>
+    <string name="label_for_meal_edit_name">Nome pasto</string>
+    <string name="label_for_meal_emotion">Emozione pasto</string>
+    <string name="manage_emotions_button">Gestisci emozioni</string>
+    <string name="meal_added_succesfully">Aggiungi emozioni</string>
+    <string name="meal_delete_button">Cancella Pasto</string>
+    <string name="placeholder_for_emotion_emoticons">Inserisci una emoticon per l\'emozione</string>
+    <string name="placeholder_for_emotion_name">Scrivi il nome di questa emozione</string>
+    <string name="placeholder_for_insert_meal_emotion">Quale era la tua emozione dopo il pasto</string>
+    <string name="placeholder_insert_meal_name">Che pasto era</string>
+    <string name="sick_emotion_default">Malato</string>
+    <string name="title_activity_emotion_list">Lista emozioni</string>
+</resources>
