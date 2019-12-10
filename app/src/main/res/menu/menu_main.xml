@@ -2,9 +2,21 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="cloud.antares.diarioalimentare.MainActivity">
-    <item android:title="@string/action_emotions_list" android:id="@+id/showEmotions"/>
-    <item android:id="@+id/action_settings"
-          android:title="@string/action_settings"
-          android:orderInCategory="100"
-          app:showAsAction="never" android:visible="false"/>
+    <item
+            android:icon="@android:drawable/ic_menu_share"
+            android:title="@string/export_meals"
+            android:visible="false"
+            app:showAsAction="ifRoom|withText" />
+    <item
+            android:id="@+id/showEmotions"
+            android:icon="@drawable/ic_emoticon"
+            android:title="@string/action_emotions_list"
+            app:showAsAction="ifRoom|withText" />
+    <item
+            android:id="@+id/action_settings"
+            android:icon="@drawable/ic_settings"
+            android:orderInCategory="100"
+            android:title="@string/action_settings"
+            android:visible="false"
+            app:showAsAction="ifRoom|withText" />
 </menu>

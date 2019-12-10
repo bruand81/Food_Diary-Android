@@ -9,14 +9,15 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "cloud.antares.diarioalimentare"
         minSdkVersion 24
-        targetSdkVersion 28
-        versionCode 2
-        versionName "1.0_b1"
+        targetSdkVersion 29
+        versionCode 3
+        versionName '1.0'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        versionNameSuffix = 'b2'
     }
     buildTypes {
         release {

@@ -25,6 +25,8 @@ import android.app.Activity
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.view.Menu
+import android.view.MenuItem
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isVisible
 
@@ -41,6 +43,7 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
     private var dishes: MutableSet<Dish> = mutableSetOf<Dish>()
     private var emotion: Emotion? = null
     private var selectedDish: Dish? = null
+    private var isEdit:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,11 +55,15 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
 
         meal = realm.where<Meal>().equalTo("_id", mealID).findFirst() ?: Meal()
 
-        if(mealID.equals("none")){
-            deleteMealButton.isEnabled = false
-            deleteMealButton.isClickable = false
-            deleteMealButton.isVisible = false
+        if(meal._id == mealID){
+            isEdit = true
         }
+
+//        if(mealID.equals("none")){
+//            deleteMealButton.isEnabled = false
+//            deleteMealButton.isClickable = false
+//            deleteMealButton.isVisible = false
+//        }
 
         dateFormatter = SimpleDateFormat("dd MMMM yyyy", applicationContext.resources.configuration.locales[0])
         timeFormatter = SimpleDateFormat("HH:mm", applicationContext.resources.configuration.locales[0])
@@ -90,9 +97,9 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
 //            builder.show()
 
         }
-        deleteMealButton.setOnClickListener { v ->
-            buildDeleteAlertDialog(v, meal).show()
-        }
+//        deleteMealButton.setOnClickListener { v ->
+//            buildDeleteAlertDialog(v, meal).show()
+//        }
     }
 
     override fun onResume() {
@@ -102,7 +109,7 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
 
         meal = realm.where<Meal>().equalTo("_id",mealId).findFirst() ?: Meal()
 
-        if (mealId != "none") {
+        if (isEdit) {
             mealNameEditText.setText(meal.name)
             meal.dishes.forEach { dishes.add(it) }
         }
@@ -121,21 +128,8 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         setTimeAndDateButton()
 
         ok_button.setOnClickListener {
-            if(emotion == null){
-                Toast.makeText(applicationContext,R.string.error_adding_meal, Toast.LENGTH_SHORT).show()
-                finish()
-            } else {
-                realm.beginTransaction()
-                meal.name = mealNameEditText.text.toString()
-                dishes.forEach { dish ->
-                    realm.copyToRealmOrUpdate(dish)
-                    meal.dishes.add(dish) }
-                meal = realm.copyToRealmOrUpdate(meal)
-                emotion!!.meals.add(meal)
-                realm.commitTransaction()
-                Toast.makeText(applicationContext,R.string.meal_added_succesfully, Toast.LENGTH_SHORT).show()
-                finish()
-            }
+            saveMeal()
+            finish()
         }
 
         cancel_button.setOnClickListener { finish() }
@@ -155,6 +149,40 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         recyclerView.adapter = dishAdapter
 
         dishAdapter.notifyDataSetChanged()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.meal_edit_menu, menu)
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        invalidateOptionsMenu()
+        if (isEdit) {
+            menu?.findItem(R.id.edit_meal_delete_menuitem)?.isEnabled = true
+            menu?.findItem(R.id.edit_meal_delete_menuitem)?.isVisible = true
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        return when (item.itemId) {
+            R.id.edit_meal_ok_menuitem -> {
+                saveMeal()
+                finish()
+                return true
+            }
+            R.id.edit_meal_cancel_menuitem -> {
+                finish()
+                return true
+            }
+            R.id.edit_meal_delete_menuitem -> {
+                buildDeleteAlertDialog().show()
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onStop() {
@@ -217,18 +245,22 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         return builder
     }
 
-    private fun buildDeleteAlertDialog(view:View, meal:Meal?): AlertDialog.Builder {
-        val builder = AlertDialog.Builder(view.context)
+    private fun buildDeleteAlertDialog(): AlertDialog.Builder {
+        val builder = AlertDialog.Builder(this)
+        if (!isEdit) {
+            finish()
+        }
         builder.setTitle(R.string.delete_meal_dialog_title)
         builder.setMessage(R.string.confirm_meal_deletion_message)
-        if (meal != null){
-            builder.setPositiveButton(android.R.string.ok){_,_ ->
-                realm.beginTransaction()
-                meal.deleteFromRealm()
-                realm.commitTransaction()
-                finish()
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
+            if (isEdit) {
+                    realm.beginTransaction()
+                    meal.deleteFromRealm()
+                    realm.commitTransaction()
+                    finish()
             }
         }
+        builder.setIcon(R.drawable.ic_alert_warning)
 
         builder.setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.cancel()}
         return builder
@@ -307,6 +339,22 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         if (view != null) {
             val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+    }
+
+    private fun saveMeal(){
+        if(emotion == null){
+            Toast.makeText(applicationContext,R.string.error_adding_meal, Toast.LENGTH_SHORT).show()
+        } else {
+            realm.beginTransaction()
+            meal.name = mealNameEditText.text.toString()
+            dishes.forEach { dish ->
+                realm.copyToRealmOrUpdate(dish)
+                meal.dishes.add(dish) }
+            meal = realm.copyToRealmOrUpdate(meal)
+            emotion!!.meals.add(meal)
+            realm.commitTransaction()
+            Toast.makeText(applicationContext,R.string.meal_added_succesfully, Toast.LENGTH_SHORT).show()
         }
     }
 }

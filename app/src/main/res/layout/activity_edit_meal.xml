@@ -109,7 +109,7 @@
                         style="?android:attr/buttonBarButtonStyle"/>
             </LinearLayout>
 
-            <Button
+            <!--<Button
                     android:id="@+id/deleteMealButton"
                     style="?attr/buttonBarButtonStyle"
                     android:layout_width="match_parent"
@@ -117,7 +117,7 @@
                     android:background="@drawable/red_button"
                     android:text="@string/meal_delete_button"
                     android:textColor="@android:color/white"
-                    android:textStyle="bold" />
+                    android:textStyle="bold" />-->
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

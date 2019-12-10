@@ -25,7 +25,7 @@
     <string name="label_for_meal_edit_name">Nome pasto</string>
     <string name="label_for_meal_emotion">Emozione pasto</string>
     <string name="manage_emotions_button">Gestisci emozioni</string>
-    <string name="meal_added_succesfully">Aggiungi emozioni</string>
+    <string name="meal_added_succesfully">Pasto aggiunto correttamente</string>
     <string name="meal_delete_button">Cancella Pasto</string>
     <string name="placeholder_for_emotion_emoticons">Inserisci una emoticon per l\'emozione</string>
     <string name="placeholder_for_emotion_name">Scrivi il nome di questa emozione</string>
@@ -34,5 +34,10 @@
     <string name="sick_emotion_default">Malato</string>
     <string name="title_activity_emotion_list">Lista emozioni</string>
     <string name="delete_meal_dialog_title">Conferma cancellazione pasto</string>
-    <string name="confirm_meal_deletion_message">Confermi la cancellazione del pasto?</string>
+    <string name="confirm_meal_deletion_message">Sei sicuro di voler cancellare questo pasto?</string>
+    <string name="delete_emotion">Cancella Emozione</string>
+    <string name="delete_emotion_dialog_title">Conferma cancellazione emozione</string>
+    <string name="confirm_emotion_deletion_message">Sei sicuro di voler cancellare questa emozione?</string>
+    <string name="nothing_to_delete">Niente da cancellare</string>
+    <string name="export_meals">Esporta diario</string>
 </resources>

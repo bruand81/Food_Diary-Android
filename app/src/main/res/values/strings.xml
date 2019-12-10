@@ -39,4 +39,9 @@
     <string name="meal_delete_button" >Delete Meal</string>
     <string name="delete_meal_dialog_title">Confirm meal deletion</string>
     <string name="confirm_meal_deletion_message">Confirm the meal deletion?</string>
+    <string name="delete_emotion">Delete emotion</string>
+    <string name="delete_emotion_dialog_title">Confirm emotion deletion</string>
+    <string name="confirm_emotion_deletion_message">Are you sure to delete this emotion?</string>
+    <string name="nothing_to_delete">Nothing to delete</string>
+    <string name="export_meals">Esporta diario</string>
 </resources>

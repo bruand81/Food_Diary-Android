@@ -7,64 +7,121 @@
         android:layout_height="match_parent"
         tools:context=".EditEmotionActivity">
 
-    <TextView
-            android:text="@string/label_for_emotion_emoticon"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView" app:layout_constraintTop_toTopOf="parent"
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" android:textSize="18sp"
-            android:layout_marginStart="8dp" android:layout_marginEnd="8dp" style="@style/HeaderLabelTextView"/>
-    <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:ems="10"
-            android:id="@+id/emoticonForEmotionEditText"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" android:layout_marginTop="8dp"
-            android:importantForAutofill="no" tools:targetApi="o"
-            android:hint="@string/placeholder_for_emotion_emoticons"
-            android:layout_marginEnd="8dp"/>
-    <TextView
-            android:text="@string/label_for_emotion_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView2" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
-            android:textSize="18sp" app:layout_constraintTop_toBottomOf="@+id/emoticonForEmotionEditText"
-            android:layout_marginTop="8dp" android:layout_marginEnd="8dp" style="@style/HeaderLabelTextView"/>
-    <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/nameForEmotionEditText" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
-            android:importantForAutofill="no" tools:targetApi="o"
-            android:hint="@string/placeholder_for_emotion_name"
-            android:layout_marginEnd="8dp"/>
-    <LinearLayout
-            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/textView"
+                    style="@style/HeaderLabelTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/label_for_emotion_emoticon"
+                    android:textSize="18sp" />
+
+            <EditText
+                    android:id="@+id/emoticonForEmotionEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:ems="10"
+                    android:hint="@string/placeholder_for_emotion_emoticons"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    tools:targetApi="o" />
+
+            <TextView
+                    android:id="@+id/textView2"
+                    style="@style/HeaderLabelTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/label_for_emotion_name"
+                    android:textSize="18sp" />
+
+            <EditText
+                    android:id="@+id/nameForEmotionEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:ems="10"
+                    android:hint="@string/placeholder_for_emotion_name"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    tools:targetApi="o" />
+
+            <LinearLayout
+                    style="?android:attr/buttonBarStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:orientation="horizontal">
+
+                <Button
+                        android:id="@+id/emotion_cancel_button"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@android:string/cancel" />
+
+                <Button
+                        android:id="@+id/emotion_ok_button"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@android:string/ok" />
+
+            </LinearLayout>
+
+            <!-- <Button
+                    android:id="@+id/deleteEmotionButton"
+                    style="?attr/buttonBarButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/red_button"
+                    android:text="@string/delete_emotion"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />-->
+
+        </LinearLayout>
+    </ScrollView>
+
+    <androidx.appcompat.widget.Toolbar
+            android:id="@+id/edit_emotion_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/nameForEmotionEditText" android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginRight="8dp"
-            android:layout_marginEnd="8dp"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
             app:layout_constraintBottom_toBottomOf="parent"
-            style="?android:attr/buttonBarStyle">
-        <Button
-                android:text="@android:string/cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/emotion_cancel_button" android:layout_weight="1"
-                style="?android:attr/buttonBarButtonStyle"/>
-        <Button
-                android:text="@android:string/ok"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/emotion_ok_button" android:layout_weight="1"
-                style="?android:attr/buttonBarButtonStyle"/>
-    </LinearLayout>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
