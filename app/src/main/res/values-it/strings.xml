@@ -33,4 +33,6 @@
     <string name="placeholder_insert_meal_name">Che pasto era</string>
     <string name="sick_emotion_default">Malato</string>
     <string name="title_activity_emotion_list">Lista emozioni</string>
+    <string name="delete_meal_dialog_title">Conferma cancellazione pasto</string>
+    <string name="confirm_meal_deletion_message">Confermi la cancellazione del pasto?</string>
 </resources>

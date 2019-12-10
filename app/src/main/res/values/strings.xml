@@ -37,4 +37,6 @@
     <string name="dish_added">Dish added</string>
     <string name="dish_add_error">Error adding dish</string>
     <string name="meal_delete_button" >Delete Meal</string>
+    <string name="delete_meal_dialog_title">Confirm meal deletion</string>
+    <string name="confirm_meal_deletion_message">Confirm the meal deletion?</string>
 </resources>

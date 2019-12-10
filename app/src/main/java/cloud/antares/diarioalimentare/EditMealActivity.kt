@@ -26,8 +26,7 @@ import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import android.content.Context.INPUT_METHOD_SERVICE
 import androidx.core.content.ContextCompat.getSystemService
-
-
+import androidx.core.view.isVisible
 
 
 class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener, DishAdapter.DishHolderOnClickDelegate {
@@ -52,6 +51,12 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         val mealID:String = (intent.extras?.getString("mealID", "none"))?:"none"
 
         meal = realm.where<Meal>().equalTo("_id", mealID).findFirst() ?: Meal()
+
+        if(mealID.equals("none")){
+            deleteMealButton.isEnabled = false
+            deleteMealButton.isClickable = false
+            deleteMealButton.isVisible = false
+        }
 
         dateFormatter = SimpleDateFormat("dd MMMM yyyy", applicationContext.resources.configuration.locales[0])
         timeFormatter = SimpleDateFormat("HH:mm", applicationContext.resources.configuration.locales[0])
@@ -84,6 +89,9 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
 //
 //            builder.show()
 
+        }
+        deleteMealButton.setOnClickListener { v ->
+            buildDeleteAlertDialog(v, meal).show()
         }
     }
 
@@ -209,6 +217,23 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         return builder
     }
 
+    private fun buildDeleteAlertDialog(view:View, meal:Meal?): AlertDialog.Builder {
+        val builder = AlertDialog.Builder(view.context)
+        builder.setTitle(R.string.delete_meal_dialog_title)
+        builder.setMessage(R.string.confirm_meal_deletion_message)
+        if (meal != null){
+            builder.setPositiveButton(android.R.string.ok){_,_ ->
+                realm.beginTransaction()
+                meal.deleteFromRealm()
+                realm.commitTransaction()
+                finish()
+            }
+        }
+
+        builder.setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.cancel()}
+        return builder
+    }
+
     override fun onNothingSelected(parent: AdapterView<*>?) {
         emotion = null
         ok_button.isEnabled = false
@@ -224,7 +249,9 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         c.time = meal.mealDate
         c.set(Calendar.HOUR_OF_DAY, hourOfDay)
         c.set(Calendar.MINUTE, minute)
+        realm.beginTransaction()
         meal.mealDate = c.time
+        realm.commitTransaction()
         setTimeAndDateButton()
     }
 
@@ -232,7 +259,9 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         val c = Calendar.getInstance()
         c.time = meal.mealDate
         c.set(year, month, day)
+        realm.beginTransaction()
         meal.mealDate = c.time
+        realm.commitTransaction()
         setTimeAndDateButton()
     }
 
