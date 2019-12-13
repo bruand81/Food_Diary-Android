@@ -74,7 +74,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> {
+                val settingsIntent: Intent = Intent(this.applicationContext, SettingsActivity::class.java)
+                startActivity(settingsIntent)
+                return true
+            }
             R.id.showEmotions -> {
                 val emotionIntent: Intent = Intent(this.applicationContext, EmotionListActivity::class.java)
                 startActivity(emotionIntent)

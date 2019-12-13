@@ -36,7 +36,7 @@
     <string name="dish_deleting_error">Error deleting dish</string>
     <string name="dish_added">Dish added</string>
     <string name="dish_add_error">Error adding dish</string>
-    <string name="meal_delete_button" >Delete Meal</string>
+    <string name="meal_delete_button">Delete Meal</string>
     <string name="delete_meal_dialog_title">Confirm meal deletion</string>
     <string name="confirm_meal_deletion_message">Confirm the meal deletion?</string>
     <string name="delete_emotion">Delete emotion</string>
@@ -44,4 +44,20 @@
     <string name="confirm_emotion_deletion_message">Are you sure to delete this emotion?</string>
     <string name="nothing_to_delete">Nothing to delete</string>
     <string name="export_meals">Esporta diario</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 </resources>

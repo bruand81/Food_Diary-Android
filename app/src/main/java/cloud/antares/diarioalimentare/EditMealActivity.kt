@@ -105,7 +105,7 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
     override fun onResume() {
         super.onResume()
 
-        val mealId:String = meal._id?:"none"
+        val mealId:String = meal._id
 
         meal = realm.where<Meal>().equalTo("_id",mealId).findFirst() ?: Meal()
 
@@ -206,7 +206,7 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
 
             inputText.setText(dish.name)
 
-            builder.setNeutralButton(R.string.delete_dish_button) { v, id ->
+            builder.setNeutralButton(R.string.delete_dish_button) { _, _ ->
                 if(selectedDish != null && selectedDish?.name == inputText.text.toString()){
                     dishes.remove(selectedDish!!)
                     realm.beginTransaction()
