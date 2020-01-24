@@ -1,34 +1,29 @@
 package cloud.antares.diarioalimentare
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.DialogInterface
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
 import android.os.Bundle
+import android.text.InputType
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import cloud.antares.diarioalimentare.model.Dish
 import cloud.antares.diarioalimentare.model.Emotion
 import cloud.antares.diarioalimentare.model.Meal
-import com.google.android.material.snackbar.Snackbar
+import cloud.antares.diarioalimentare.model.MeasureUnit
 import io.realm.Realm
 import io.realm.RealmResults
-import io.realm.kotlin.delete
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_edit_meal.*
-import kotlinx.android.synthetic.main.dishrecyclerview_item_row.*
 import java.text.SimpleDateFormat
 import java.util.*
-import android.app.Activity
-import android.content.Context
-import android.view.inputmethod.InputMethodManager
-import android.content.Context.INPUT_METHOD_SERVICE
-import android.view.Menu
-import android.view.MenuItem
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.view.isVisible
 
 
 class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener, DishAdapter.DishHolderOnClickDelegate {
@@ -37,6 +32,8 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
     private lateinit var dateFormatter: SimpleDateFormat
     private lateinit var timeFormatter: SimpleDateFormat
     private lateinit var emotionMap: Map<String, Emotion>
+    private lateinit var measureUnitMap: Map<String, MeasureUnit>
+    private lateinit var measureUnitList: List<String>
     private lateinit var emotionList: List<String>
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var dishAdapter: DishAdapter
@@ -105,7 +102,7 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
     override fun onResume() {
         super.onResume()
 
-        val mealId:String = meal._id?:"none"
+        val mealId:String = meal._id
 
         meal = realm.where<Meal>().equalTo("_id",mealId).findFirst() ?: Meal()
 
@@ -196,17 +193,36 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
 
     private fun builAlertDialog(view: View, dish: Dish?): AlertDialog.Builder {
         val builder = AlertDialog.Builder(view.context)
+        val layout = LinearLayout(view.context)
+        layout.orientation = LinearLayout.VERTICAL
         builder.setTitle(R.string.add_dish_dialog_title)
         val inputText: AutoCompleteTextView = AutoCompleteTextView(view.context)
+        val quantityInputText = EditText(view.context)
+        val measureUnitSpinner = Spinner(view.context)
         val dishesList: List<Dish> = realm.where<Dish>().findAll().toList()
         val adapter: ArrayAdapter<Dish> = ArrayAdapter<Dish>(view.context, android.R.layout.simple_dropdown_item_1line, dishesList)
+        var isEdit = false
+
+        quantityInputText.inputType = InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_DECIMAL
+        quantityInputText.setHint(R.string.add_dish_quantity)
+        inputText.setHint(R.string.add_dish_name)
+
+        val measureUnits: RealmResults<MeasureUnit> = realm.where<MeasureUnit>().findAll()
+        val measureUnitMap = measureUnits.map { it.name to it }.toMap()
+//        val emotionList: List<String> =  emotions.map { emotion -> emotion.emoticon + " " + emotion.name }
+        measureUnitList = measureUnitMap.keys.toList()
+        val measureUnitArrayAdapter: ArrayAdapter<String> = ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item, measureUnitList)
+        measureUnitSpinner.adapter = measureUnitArrayAdapter
 
         if(dish != null) {
             selectedDish = dish
+            isEdit = true
 
             inputText.setText(dish.name)
+            quantityInputText.setText("${dish.quantity}")
+            measureUnitSpinner.setSelection(measureUnitArrayAdapter.getPosition(dish.measureUnitForDishes?.first()?.name),true)
 
-            builder.setNeutralButton(R.string.delete_dish_button) { v, id ->
+            builder.setNeutralButton(R.string.delete_dish_button) { _, _ ->
                 if(selectedDish != null && selectedDish?.name == inputText.text.toString()){
                     dishes.remove(selectedDish!!)
                     realm.beginTransaction()
@@ -225,18 +241,41 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             selectedDish = adapterView.adapter.getItem(position) as Dish
             Toast.makeText(applicationContext, selectedDish?.name, Toast.LENGTH_LONG).show()
         }
-        builder.setView(inputText)
+        layout.addView(inputText)
+        layout.addView(quantityInputText)
+        layout.addView(measureUnitSpinner)
+        builder.setView(layout)
+        //builder.setView(quantityInputText)
 
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
+            realm.beginTransaction()
             val newDish: Dish?
-            if(selectedDish != null && selectedDish?.name == inputText.text.toString()){
+            //if(selectedDish != null && selectedDish?.name == inputText.text.toString()){
+
+            if(selectedDish != null){
                 newDish = selectedDish
             } else {
                 newDish = Dish()
+            }
+            if (newDish != null) {
                 newDish.name = inputText.text.toString()
+                newDish.quantity = quantityInputText.text.toString().toDouble()
             }
             dishes.add(newDish!!)
+
+            val selectedMeasureUnit = measureUnitMap.get(measureUnitSpinner.selectedItem as String)
+            if(selectedMeasureUnit!= null){
+                if(isEdit) {
+                    if(!selectedMeasureUnit.equals(newDish.measureUnitForDishes?.first())){
+                        selectedDish?.measureUnitForDishes?.first()?.dishes?.remove(newDish)
+                        selectedMeasureUnit.dishes.add(newDish)
+                    }
+                } else {
+                    selectedMeasureUnit.dishes.add(newDish)
+                }
+            }
             Toast.makeText(view.context,R.string.dish_added,Toast.LENGTH_SHORT).show()
+            realm.commitTransaction()
             initDishRecyclerView()
         }
 

@@ -40,4 +40,22 @@
     <string name="confirm_emotion_deletion_message">Sei sicuro di voler cancellare questa emozione?</string>
     <string name="nothing_to_delete">Niente da cancellare</string>
     <string name="export_meals">Esporta diario</string>
+    <string name="NN_MU">Non Specificata</string>
+    <string name="PZ_MU">pz</string>
+    <string name="ML_MU">ml</string>
+    <string name="title_activity_export">Esporta</string>
+    <string name="GR_MU">gr</string>
+    <string name="add_dish_quantity">Quantità</string>
+    <string name="add_dish_name">Nome</string>
+    <string name="measure_unit">Unità di misura</string>
+    <string name="title_activity_measure_unit_management">Gestione unità di misura</string>
+    <string name="measureunitname">Unità di misura</string>
+    <string name="done_button_menu_item">Fatto</string>
+    <string name="cancel_button_menu_item">Annulla</string>
+    <string name="delete">Cancella</string>
+    <string name="modify">Modifica</string>
+    <string name="add_measure_unit_dialog">Aggiungi unità di misura</string>
+    <string name="edit_measure_unit_dialog">Modifica unità di misura</string>
+    <string name="add_measure_unit_edit_name">Descrizione dell\'unità di misura</string>
+    <string name="mu_icon">MU</string>
 </resources>

@@ -8,6 +8,11 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'realm-android'
 
+apply plugin: 'com.google.gms.google-services'
+
+// Apply the Crashlytics Gradle plugin
+apply plugin: 'com.google.firebase.crashlytics'
+
 android {
     compileSdkVersion 29
     defaultConfig {
@@ -17,12 +22,18 @@ android {
         versionCode 3
         versionName '1.0'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        versionNameSuffix = 'b2'
+        versionNameSuffix = 'b3'
     }
     buildTypes {
+        debug {
+            resValue "string", "main_activity_banner_ad_unit_id", "ca-app-pub-3940256099942544/6300978111"
+            resValue "string", "admob_app_id", "ca-app-pub-7085815040234496~1979993364"
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue "string", "admob_app_id", "ca-app-pub-7085815040234496~1979993364"
+            resValue "string", "main_activity_banner_ad_unit_id", "ca-app-pub-7085815040234496/2339279534"
         }
     }
 }
@@ -37,4 +48,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'com.google.firebase:firebase-analytics:17.2.0'
+    // Add the Firebase SDK for Crashlytics.
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta01'
+    implementation 'com.google.firebase:firebase-ads:18.3.0'
 }

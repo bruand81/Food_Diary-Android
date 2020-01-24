@@ -1,39 +1,49 @@
 package cloud.antares.diarioalimentare
 
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.DatePicker
-import android.widget.TimePicker
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import cloud.antares.diarioalimentare.model.Emotion
-import cloud.antares.diarioalimentare.model.Meal
+import cloud.antares.diarioalimentare.model.*
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import io.realm.Realm
+import io.realm.RealmConfiguration
 import io.realm.RealmResults
-import io.realm.kotlin.createObject
 import io.realm.kotlin.where
-
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var realm: Realm
     private lateinit var layoutManager: LinearLayoutManager
     lateinit var adapter: MealAdapter
+    lateinit var mAdView : AdView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         Realm.init(this)
 
+        val configuration: RealmConfiguration = RealmConfiguration.Builder().name("food_diary.realm").schemaVersion(3).migration(
+            RealmMigrations()
+        ).build()
+        Realm.setDefaultConfiguration(configuration)
+        realm = Realm.getDefaultInstance()
+        checkEmotions(realm)
+        checkMeasureUnit(realm)
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        MobileAds.initialize(this, getString(R.string.admob_app_id))
+        mAdView = findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
 
         fab.setOnClickListener { view ->
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -51,6 +61,7 @@ class MainActivity : AppCompatActivity() {
         realm = Realm.getDefaultInstance()
 
         checkEmotions(realm)
+        checkMeasureUnit(realm)
 
         val meals: RealmResults<Meal> = realm.where<Meal>().findAll()
 
@@ -60,6 +71,7 @@ class MainActivity : AppCompatActivity() {
         adapter = MealAdapter(meals)
         mealRecyclerView.adapter = adapter
     }
+
 
     override fun onStop() {
         super.onStop()
@@ -78,6 +90,11 @@ class MainActivity : AppCompatActivity() {
             R.id.showEmotions -> {
                 val emotionIntent: Intent = Intent(this.applicationContext, EmotionListActivity::class.java)
                 startActivity(emotionIntent)
+                return true
+            }
+            R.id.measure_unit -> {
+                val measureUnitIntent = Intent(this.applicationContext, MeasureUnitManagement::class.java)
+                startActivity(measureUnitIntent)
                 return true
             }
             else -> super.onOptionsItemSelected(item)
@@ -100,6 +117,28 @@ class MainActivity : AppCompatActivity() {
             realm.insert(emotions)
             realm.commitTransaction()
         }
+    }
+
+    private fun checkMeasureUnit(realm: Realm) {
+        println("checkMeasureUnit")
+        if(realm.where<MeasureUnit>().count() < 1) {
+            val measures: List<MeasureUnit> = listOf(
+                MeasureUnit(getString(R.string.NN_MU)),
+                MeasureUnit(getString(R.string.PZ_MU)),
+                MeasureUnit(getString(R.string.ML_MU)),
+                MeasureUnit(getString(R.string.GR_MU))
+            )
+            realm.beginTransaction()
+            realm.insert(measures)
+            realm.commitTransaction()
+        }
+
+        val dishes = realm.where<Dish>().isEmpty("measureUnitForDishes").findAll()
+        val mu = realm.where<MeasureUnit>().equalTo("name",getString(R.string.NN_MU)).findFirst()
+
+        realm.beginTransaction()
+        mu?.dishes?.addAll(dishes)
+        realm.commitTransaction()
     }
 
 }

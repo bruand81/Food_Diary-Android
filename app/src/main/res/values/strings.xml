@@ -36,7 +36,7 @@
     <string name="dish_deleting_error">Error deleting dish</string>
     <string name="dish_added">Dish added</string>
     <string name="dish_add_error">Error adding dish</string>
-    <string name="meal_delete_button" >Delete Meal</string>
+    <string name="meal_delete_button">Delete Meal</string>
     <string name="delete_meal_dialog_title">Confirm meal deletion</string>
     <string name="confirm_meal_deletion_message">Confirm the meal deletion?</string>
     <string name="delete_emotion">Delete emotion</string>
@@ -44,4 +44,22 @@
     <string name="confirm_emotion_deletion_message">Are you sure to delete this emotion?</string>
     <string name="nothing_to_delete">Nothing to delete</string>
     <string name="export_meals">Esporta diario</string>
+    <string name="title_activity_export">ExportActivity</string>
+    <string name="NN_MU">NN</string>
+    <string name="PZ_MU">pz</string>
+    <string name="ML_MU">ml</string>
+    <string name="GR_MU">gr</string>
+    <string name="add_dish_quantity">Quantity</string>
+    <string name="add_dish_name">Name</string>
+    <string name="measure_unit">Measure Unit</string>
+    <string name="title_activity_measure_unit_management">Measure Unit Management</string>
+    <string name="measureunitname">Measure unit</string>
+    <string name="done_button_menu_item">Done</string>
+    <string name="cancel_button_menu_item">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="modify">Modify</string>
+    <string name="add_measure_unit_dialog">Add measure unit</string>
+    <string name="edit_measure_unit_dialog">Edit measure unit</string>
+    <string name="add_measure_unit_edit_name">Insert measure unit description</string>
+    <string name="mu_icon">MU</string>
 </resources>

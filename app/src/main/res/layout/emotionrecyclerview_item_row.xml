@@ -11,5 +11,5 @@
             android:text="EmotionText"
             android:layout_width="match_parent"
             android:layout_height="match_parent" android:id="@+id/emotionName" android:textSize="20sp"
-            android:gravity="center" android:textAlignment="viewStart"/>
+            android:gravity="start" android:textAlignment="viewStart"/>
 </LinearLayout>

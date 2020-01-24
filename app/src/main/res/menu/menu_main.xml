@@ -3,6 +3,7 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="cloud.antares.diarioalimentare.MainActivity">
     <item
+            android:id="@+id/export_meals"
             android:icon="@android:drawable/ic_menu_share"
             android:title="@string/export_meals"
             android:visible="false"
@@ -19,4 +20,8 @@
             android:title="@string/action_settings"
             android:visible="false"
             app:showAsAction="ifRoom|withText" />
+    <item
+            android:id="@+id/measure_unit"
+            android:icon="@drawable/ic_done_checkmark"
+            android:title="@string/measure_unit" />
 </menu>

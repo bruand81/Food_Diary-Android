@@ -19,9 +19,7 @@ class DishAdapter(private val dishes: List<Dish>, private val dishHolderOnClickD
 
     override fun onBindViewHolder(holder: DishHolder, position: Int) {
         val dish = dishes[position]
-        if(dish != null) {
-            holder.bindDish(dish)
-        }
+        holder.bindDish(dish)
     }
 
     class DishHolder(v: View, private val dishHolderOnClickDelegate: DishHolderOnClickDelegate): RecyclerView.ViewHolder(v), View.OnClickListener{
