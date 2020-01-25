@@ -3,23 +3,20 @@ package cloud.antares.diarioalimentare
 import android.app.Activity
 import android.app.AlertDialog
 import android.os.Bundle
+import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.LinearLayout
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import cloud.antares.diarioalimentare.model.Dish
+import cloud.antares.diarioalimentare.adapters.MeasureUnitAdapter
 import cloud.antares.diarioalimentare.model.MeasureUnit
 import io.realm.Realm
 import io.realm.kotlin.where
-import kotlinx.android.synthetic.main.activity_edit_meal.*
 
 import kotlinx.android.synthetic.main.activity_measure_unit_management.*
 import kotlinx.android.synthetic.main.content_measure_unit_management.*
@@ -71,16 +68,11 @@ class MeasureUnitManagement : AppCompatActivity(), MeasureUnitAdapter.MeasureUni
         }
     }
 
-    override fun onClick(view: View, measureUnit: MeasureUnit?) {
-        println("Click")
+    override fun onClick(v: View, measureUnit: MeasureUnit?) {
+        buildAddOrEditDialog(v, measureUnit).show()
     }
 
-    override fun onLongClick(v: View?, measureUnit: MeasureUnit?): Boolean {
-        println("Long Click")
-        return true
-    }
-
-    override fun delete_measure_unit(v: View?, measureUnit: MeasureUnit?): Boolean {
+    override fun deleteMeasureUnit(v: View?, measureUnit: MeasureUnit?): Boolean {
         if (measureUnit != null) {
             // Open the realm for the UI thread.
             realm = Realm.getDefaultInstance()
@@ -92,7 +84,7 @@ class MeasureUnitManagement : AppCompatActivity(), MeasureUnitAdapter.MeasureUni
         return true
     }
 
-    override fun edit_measure_unit(v: View?, measureUnit: MeasureUnit?): Boolean {
+    override fun editMeasureUnit(v: View?, measureUnit: MeasureUnit?): Boolean {
 //        val curView = v ?: this
         buildAddOrEditDialog(v, measureUnit).show()
         return true
@@ -104,6 +96,7 @@ class MeasureUnitManagement : AppCompatActivity(), MeasureUnitAdapter.MeasureUni
         layout.orientation = LinearLayout.VERTICAL
         val inputText = EditText(v?.context)
         inputText.setHint(R.string.add_measure_unit_edit_name)
+        inputText.inputType = InputType.TYPE_CLASS_TEXT + InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
         if(measureUnit == null){
             builder.setTitle(R.string.add_measure_unit_dialog)
         } else {
@@ -137,7 +130,10 @@ class MeasureUnitManagement : AppCompatActivity(), MeasureUnitAdapter.MeasureUni
         layoutManager = LinearLayoutManager(this)
         measureUnitRecyclerView.layoutManager = layoutManager
 
-        adapter = MeasureUnitAdapter(measureUnits, this)
+        adapter = MeasureUnitAdapter(
+            measureUnits,
+            this
+        )
         val dividerItemDecoration = DividerItemDecoration(measureUnitRecyclerView.context, layoutManager.orientation)
 
         measureUnitRecyclerView.addItemDecoration(dividerItemDecoration)

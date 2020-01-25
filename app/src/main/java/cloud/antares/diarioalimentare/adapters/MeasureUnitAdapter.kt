@@ -1,9 +1,9 @@
-package cloud.antares.diarioalimentare
+package cloud.antares.diarioalimentare.adapters
 
 import android.view.*
 import android.widget.PopupMenu
-import androidx.appcompat.view.menu.MenuPopupHelper
 import androidx.recyclerview.widget.RecyclerView
+import cloud.antares.diarioalimentare.R
 import cloud.antares.diarioalimentare.model.MeasureUnit
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.mesureunitrecyclerview_item_row.view.*
@@ -36,8 +36,12 @@ class MeasureUnitAdapter(private val measureUnits: RealmResults<MeasureUnit>, pr
             menuInfo: ContextMenu.ContextMenuInfo?
         ) {
             menu?.setHeaderTitle(R.string.measure_unit)
-            menu?.add(0,view.id,0,R.string.delete)
-            menu?.add(0,view.id,0,R.string.modify)
+            menu?.add(0,view.id,0,
+                R.string.delete
+            )
+            menu?.add(0,view.id,0,
+                R.string.modify
+            )
         }
 
         override fun onLongClick(v: View?): Boolean {
@@ -46,11 +50,11 @@ class MeasureUnitAdapter(private val measureUnits: RealmResults<MeasureUnit>, pr
                 when (item.itemId) {
                     R.id.delete_contextual_menu_item -> {
                         println("Delete item ${this.measureUnit}")
-                        return@setOnMenuItemClickListener measureUnitHolderOnClickDelegate.delete_measure_unit(v, measureUnit)
+                        return@setOnMenuItemClickListener measureUnitHolderOnClickDelegate.deleteMeasureUnit(v, measureUnit)
                     }
                     R.id.modify_contextual_menu_item -> {
                         println("Modify item ${this.measureUnit}")
-                        return@setOnMenuItemClickListener measureUnitHolderOnClickDelegate.edit_measure_unit(v, measureUnit)
+                        return@setOnMenuItemClickListener measureUnitHolderOnClickDelegate.editMeasureUnit(v, measureUnit)
                     }
                     else -> true
                 }
@@ -60,21 +64,23 @@ class MeasureUnitAdapter(private val measureUnits: RealmResults<MeasureUnit>, pr
 
             popup.show()
 
-            return measureUnitHolderOnClickDelegate.onLongClick(view, measureUnit)
+            return true
         }
 
     }
 
     interface MeasureUnitHolderOnClickDelegate {
-        fun onClick(view: View, measureUnit: MeasureUnit?)
-        fun onLongClick(v: View?, measureUnit: MeasureUnit?): Boolean
-        fun delete_measure_unit(v: View?,measureUnit: MeasureUnit?): Boolean
-        fun edit_measure_unit(v: View?,measureUnit: MeasureUnit?): Boolean
+        fun onClick(v: View, measureUnit: MeasureUnit?)
+        fun deleteMeasureUnit(v: View?, measureUnit: MeasureUnit?): Boolean
+        fun editMeasureUnit(v: View?, measureUnit: MeasureUnit?): Boolean
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MeasureUnitHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.mesureunitrecyclerview_item_row, parent, false)
-        return MeasureUnitHolder(view, measureUnitHolderOnClickDelegate)
+        return MeasureUnitHolder(
+            view,
+            measureUnitHolderOnClickDelegate
+        )
     }
 
     override fun getItemCount(): Int {

@@ -3,24 +3,17 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/design_default_color_primary"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:paddingLeft="@dimen/defaultSpace"
         android:paddingRight="@dimen/defaultSpace">
-
-    <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@color/colorPrimaryDark"
-            android:contentDescription="@string/mu_icon"
-            app:srcCompat="@drawable/ic_item_icon" />
 
     <TextView
             android:id="@+id/measureunitname"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_item_icon"
+            android:drawableTint="?attr/colorPrimaryDark"
             android:text="@string/measure_unit"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"/>
 
 </LinearLayout>

@@ -14,10 +14,12 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import cloud.antares.diarioalimentare.adapters.DishAdapter
 import cloud.antares.diarioalimentare.model.Dish
 import cloud.antares.diarioalimentare.model.Emotion
 import cloud.antares.diarioalimentare.model.Meal
 import cloud.antares.diarioalimentare.model.MeasureUnit
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.kotlin.where
@@ -141,7 +143,10 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         recyclerView.layoutManager = null
         recyclerView.layoutManager = layoutManager
 
-        dishAdapter = DishAdapter(dishes.toList(), this)
+        dishAdapter = DishAdapter(
+            dishes.toList(),
+            this
+        )
         recyclerView.adapter = null
         recyclerView.adapter = dishAdapter
 
@@ -191,16 +196,43 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         builAlertDialog(view, dish).show()
     }
 
-    private fun builAlertDialog(view: View, dish: Dish?): AlertDialog.Builder {
-        val builder = AlertDialog.Builder(view.context)
-        val layout = LinearLayout(view.context)
+    override fun deleteDish(view: View?, dish: Dish?): Boolean {
+        var isError = false
+        try {
+            // Open the realm for the UI thread.
+            realm = Realm.getDefaultInstance()
+            realm.beginTransaction()
+            dish?.deleteFromRealm()
+            realm.commitTransaction()
+            initDishRecyclerView()
+        } catch (error: Throwable) {
+            println(error)
+            error.printStackTrace()
+            FirebaseCrashlytics.getInstance().recordException(error)
+            isError = true
+        } finally {
+            if(!realm.isClosed) {
+                realm.close()
+            }
+        }
+        return !isError
+    }
+
+    override fun editDish(view: View?, dish: Dish?): Boolean {
+        builAlertDialog(view, dish).show()
+        return true
+    }
+
+    private fun builAlertDialog(view: View?, dish: Dish?): AlertDialog.Builder {
+        val builder = AlertDialog.Builder(view?.context)
+        val layout = LinearLayout(view?.context)
         layout.orientation = LinearLayout.VERTICAL
         builder.setTitle(R.string.add_dish_dialog_title)
-        val inputText: AutoCompleteTextView = AutoCompleteTextView(view.context)
-        val quantityInputText = EditText(view.context)
-        val measureUnitSpinner = Spinner(view.context)
+        val inputText: AutoCompleteTextView = AutoCompleteTextView(view?.context)
+        val quantityInputText = EditText(view?.context)
+        val measureUnitSpinner = Spinner(view?.context)
         val dishesList: List<Dish> = realm.where<Dish>().findAll().toList()
-        val adapter: ArrayAdapter<Dish> = ArrayAdapter<Dish>(view.context, android.R.layout.simple_dropdown_item_1line, dishesList)
+        val adapter: ArrayAdapter<Dish> = ArrayAdapter<Dish>(view!!.context, android.R.layout.simple_dropdown_item_1line, dishesList)
         var isEdit = false
 
         quantityInputText.inputType = InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_DECIMAL
@@ -222,18 +254,18 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             quantityInputText.setText("${dish.quantity}")
             measureUnitSpinner.setSelection(measureUnitArrayAdapter.getPosition(dish.measureUnitForDishes?.first()?.name),true)
 
-            builder.setNeutralButton(R.string.delete_dish_button) { _, _ ->
-                if(selectedDish != null && selectedDish?.name == inputText.text.toString()){
-                    dishes.remove(selectedDish!!)
-                    realm.beginTransaction()
-                    realm.where<Dish>().equalTo("_id",selectedDish!!._id).findAll().deleteAllFromRealm()
-                    realm.commitTransaction()
-                    Toast.makeText(view.context,R.string.dish_deleted,Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(view.context,R.string.dish_deleting_error,Toast.LENGTH_SHORT).show()
-                }
-                initDishRecyclerView()
-            }
+//            builder.setNeutralButton(R.string.delete_dish_button) { _, _ ->
+//                if(selectedDish != null && selectedDish?.name == inputText.text.toString()){
+//                    dishes.remove(selectedDish!!)
+//                    realm.beginTransaction()
+//                    realm.where<Dish>().equalTo("_id",selectedDish!!._id).findAll().deleteAllFromRealm()
+//                    realm.commitTransaction()
+//                    Toast.makeText(view.context,R.string.dish_deleted,Toast.LENGTH_SHORT).show()
+//                } else {
+//                    Toast.makeText(view.context,R.string.dish_deleting_error,Toast.LENGTH_SHORT).show()
+//                }
+//                initDishRecyclerView()
+//            }
         }
 
         inputText.setAdapter(adapter)
@@ -388,10 +420,15 @@ class EditMealActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             realm.beginTransaction()
             meal.name = mealNameEditText.text.toString()
             dishes.forEach { dish ->
-                realm.copyToRealmOrUpdate(dish)
-                meal.dishes.add(dish) }
-            meal = realm.copyToRealmOrUpdate(meal)
-            emotion!!.meals.add(meal)
+                realm.insertOrUpdate(dishes)
+                if (!meal.dishes.contains(dish)) {
+                    meal.dishes.add(dish)
+                }
+            }
+            realm.insertOrUpdate(meal)
+            if(!emotion!!.meals.contains(meal)) {
+                emotion!!.meals.add(meal)
+            }
             realm.commitTransaction()
             Toast.makeText(applicationContext,R.string.meal_added_succesfully, Toast.LENGTH_SHORT).show()
         }
